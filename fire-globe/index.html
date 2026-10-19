@@ -12,6 +12,7 @@
 </head>
 <body>
 <main class="stage" id="stage">
+  <canvas id="earth" aria-hidden="true"></canvas>
   <canvas id="globe" role="img" aria-label="Rotating globe showing vegetation fires detected by NASA satellites. Drag to turn it."></canvas>
 
   <header class="head" id="head">
@@ -23,9 +24,9 @@
   <nav class="months" id="months" aria-label="Choose a period"></nav>
 
   <div class="legend" aria-hidden="true">
-    <span>Fire detections per cell</span>
+    <span>Fire detections per 10 km cell</span>
     <span class="ramp"></span>
-    <span class="ticks"><span>1</span><span>5</span><span>20</span><span>50+</span></span>
+    <span class="ticks"><span>1</span><span>10</span><span>40</span><span>120</span><span>400+</span></span>
   </div>
 
   <div class="controls">
@@ -41,6 +42,7 @@
     <span>Map: <a href="https://spatialstat.com/licensing/" target="_top">SpatialStat, CC BY-NC-ND 4.0</a></span>
     <span>Fires: <a href="https://firms.modaps.eosdis.nasa.gov/" target="_blank" rel="noopener">NASA FIRMS</a>, VIIRS NOAA-20</span>
     <span>Settlements: <a href="https://human-settlement.emergency.copernicus.eu/" target="_blank" rel="noopener">GHSL, European Commission</a> (CC BY 4.0)</span>
+    <span>Imagery: <a href="https://visibleearth.nasa.gov/collection/1484/blue-marble" target="_blank" rel="noopener">NASA Blue Marble</a></span>
     <span>Borders: <a href="https://www.naturalearthdata.com/" target="_blank" rel="noopener">Natural Earth</a></span>
     <button type="button" class="link" id="about-btn" aria-expanded="false" aria-controls="about">About the data</button>
     <button type="button" class="link" id="embed-btn" aria-expanded="false" aria-controls="embed">Embed</button>
@@ -48,7 +50,7 @@
   <div class="panel" id="about" hidden>
     <p>Each glowing cell holds the fires detected by the VIIRS instrument on NASA/NOAA's NOAA-20 satellite (375 m pixels), counted on a grid. A detection is a pixel that was hot when the satellite passed, so one large fire produces many detections and fires under cloud are missed.</p>
     <p id="method">We kept nominal- and high-confidence detections and removed those offshore, inside towns and cities, and at persistent heat sources such as gas flares.</p>
-    <p>We acknowledge the use of data and imagery from NASA's Fire Information for Resource Management System (FIRMS), part of NASA's Earth Science Data and Information System (ESDIS). Settlement mask: Schiavina M., Melchiorri M., Pesaresi M. (2023), GHS-SMOD R2023A, European Commission, Joint Research Centre. Processed data (fires.json, stats.json) are available under CC BY 4.0 with these credits.</p>
+    <p>We acknowledge the use of data and imagery from NASA's Fire Information for Resource Management System (FIRMS), part of NASA's Earth Science Data and Information System (ESDIS). Settlement mask: Schiavina M., Melchiorri M., Pesaresi M. (2023), GHS-SMOD R2023A, European Commission, Joint Research Centre. Satellite image of the Earth: NASA Visible Earth, Blue Marble (public domain); it shows the land surface, not the clouds or conditions on these dates. Processed data (fires.json, stats.json) are available under CC BY 4.0 with these credits.</p>
   </div>
   <div class="panel" id="embed" hidden>
     <p>Free to embed on non-commercial sites with this credit. For media and commercial use, see <a href="https://spatialstat.com/licensing/" target="_top">licensing</a>.</p>

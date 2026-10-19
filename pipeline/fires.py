@@ -211,7 +211,27 @@ def near_land(lon, lat, km=5):
     return shapely.contains_xy(buf, lon, lat)
 
 
-# ---------------------------------------------------------------- 3. run
+# ---------------------------------------------------------------- 3. labels for the globe
+
+def write_hotspots(df: pd.DataFrame, months: list[str], top: int = 8) -> None:
+    """Top countries per period, labelled at their busiest 1-degree cell: fire-globe/data/hotspots.json."""
+    df = df[df['country'] != 'Unassigned'].assign(
+        x=np.floor(df['longitude']) + 0.5, y=np.floor(df['latitude']) + 0.5)
+    out = {}
+    for period in ['all'] + months:
+        d = df if period == 'all' else df[df['month'] == period]
+        if d.empty:
+            continue
+        counts = d['country'].value_counts().head(top)
+        rows = []
+        for name, n in counts.items():
+            peak = d[d['country'] == name].groupby(['x', 'y']).size().idxmax()
+            rows.append([name, int(n), float(peak[0]), float(peak[1])])
+        out[period] = rows
+    (OUT / 'hotspots.json').write_text(json.dumps(out, separators=(',', ':')))
+
+
+# ---------------------------------------------------------------- 4. run
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -271,6 +291,8 @@ def main():
 
     log('Assigning countries ...')
     df['country'], df['continent'] = countries(df['longitude'].to_numpy(), df['latitude'].to_numpy())
+    # Natural Earth puts all of Russia in Europe; east of the Urals (60°E) count it as Asia.
+    df.loc[(df['country'] == 'Russia') & (df['longitude'] > 60), 'continent'] = 'Asia'
     df['month'] = df['acq_date'].str[:7]
     months = sorted(df['month'].unique())
 
@@ -335,6 +357,7 @@ def main():
     (df.pivot_table(index=['country', 'continent'], columns='month', values='frp', aggfunc='size', fill_value=0)
        .assign(total=lambda t: t.sum(axis=1)).sort_values('total', ascending=False)
        .to_csv(OUT / 'fires-by-country.csv'))
+    write_hotspots(df[['longitude', 'latitude', 'country', 'month']], months)
     size = (OUT / 'fires.json').stat().st_size / 1e6
     log(f'Wrote {OUT / "fires.json"} ({len(tab):,} cells, {size:.1f} MB), stats.json, fires-by-country.csv')
 

@@ -21,6 +21,7 @@ For news media, books, reports, adaptations and commercial use, see https://spat
 | VIIRS 375 m active fire detections, NOAA-20 (NRT and standard) | NASA FIRMS / LANCE | NASA open data, no restrictions on use | We acknowledge the use of data and imagery from NASA's Fire Information for Resource Management System (FIRMS), part of NASA's Earth Science Data and Information System (ESDIS). |
 | GHS-SMOD R2023A, epoch 2025, 30 arc-seconds (Degree of Urbanisation) | European Commission, Joint Research Centre | CC BY 4.0, © European Union | Schiavina M., Melchiorri M., Pesaresi M. (2023): GHS-SMOD R2023A. European Commission, Joint Research Centre. Changes: used as a mask to remove fire detections in towns and cities. |
 | Admin 0 countries, land, boundary lines, 1:50m | Natural Earth | Public domain | Made with Natural Earth. |
+| Blue Marble satellite image of the Earth (`shared/base/blue-marble-*.jpg`) | NASA Visible Earth | Public domain (NASA imagery) | NASA Visible Earth, Blue Marble. Shows the land surface, not conditions on the dates of the fire data. |
 
 ## How the data were changed
 Low-confidence detections were removed. Detections more than about 5 km from land, inside GHS-SMOD classes 21–30
