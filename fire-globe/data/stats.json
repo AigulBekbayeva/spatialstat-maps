@@ -1,0 +1,333 @@
+{
+ "meta": {
+  "title": "Fire detections on Earth",
+  "start": "2026-07-21",
+  "end": "2026-10-18",
+  "days": 90,
+  "months": [
+   "2026-07",
+   "2026-08",
+   "2026-09",
+   "2026-10"
+  ],
+  "grid": 0.1,
+  "cells": 205202,
+  "detections": 5671874,
+  "satellite": "NOAA-20 (JPSS-1), VIIRS 375 m",
+  "sources_used": [
+   "N20"
+  ],
+  "counts": {
+   "downloaded": 6764978,
+   "after_confidence": 6047048,
+   "final": 5671874
+  },
+  "removed": {
+   "offshore": 27654,
+   "settlements": 168909,
+   "persistent_heat_sources": 178611
+  },
+  "masks": {
+   "confidence": "nominal and high only",
+   "offshore": "more than 5 km from land (Natural Earth 1:50m)",
+   "settlements": "GHS-SMOD 2025 class 21 and above",
+   "persistent": "same ~400 m spot on 18+ days"
+  },
+  "generated": "2026-10-19T11:07Z",
+  "format": "cells is a flat list: gi, gj, then one count per month; lon = gi*grid-180, lat = gj*grid-90 (cell corner)"
+ },
+ "removed_settlements_by_class": {
+  "Suburban or peri-urban": 69202,
+  "Urban centre": 57469,
+  "Dense urban cluster": 33357,
+  "Semi-dense urban cluster": 8881
+ },
+ "by_month": {
+  "2026-07": 707210,
+  "2026-08": 2547959,
+  "2026-09": 1655689,
+  "2026-10": 761016
+ },
+ "by_week": {
+  "2026-07-20/2026-07-26": 397735,
+  "2026-07-27/2026-08-02": 452238,
+  "2026-08-03/2026-08-09": 542974,
+  "2026-08-10/2026-08-16": 456211,
+  "2026-08-17/2026-08-23": 664251,
+  "2026-08-24/2026-08-30": 654026,
+  "2026-08-31/2026-09-06": 537476,
+  "2026-09-07/2026-09-13": 343276,
+  "2026-09-14/2026-09-20": 431137,
+  "2026-09-21/2026-09-27": 306722,
+  "2026-09-28/2026-10-04": 257646,
+  "2026-10-05/2026-10-11": 330284,
+  "2026-10-12/2026-10-18": 297898
+ },
+ "by_continent": {
+  "Africa": [
+   2840304,
+   50.1
+  ],
+  "Europe": [
+   857805,
+   15.1
+  ],
+  "Asia": [
+   634970,
+   11.2
+  ],
+  "South America": [
+   606861,
+   10.7
+  ],
+  "North America": [
+   367825,
+   6.5
+  ],
+  "Oceania": [
+   363923,
+   6.4
+  ],
+  "Seven seas (open ocean)": [
+   107,
+   0.0
+  ],
+  "Antarctica": [
+   79,
+   0.0
+  ]
+ },
+ "top_countries": {
+  "Russia": [
+   751032,
+   13.2
+  ],
+  "Dem. Rep. Congo": [
+   650191,
+   11.5
+  ],
+  "Angola": [
+   626493,
+   11.0
+  ],
+  "Indonesia": [
+   481872,
+   8.5
+  ],
+  "Zambia": [
+   459676,
+   8.1
+  ],
+  "Mozambique": [
+   450124,
+   7.9
+  ],
+  "Brazil": [
+   416584,
+   7.3
+  ],
+  "Australia": [
+   253056,
+   4.5
+  ],
+  "Tanzania": [
+   188818,
+   3.3
+  ],
+  "United States of America": [
+   183243,
+   3.2
+  ],
+  "Canada": [
+   158856,
+   2.8
+  ],
+  "Madagascar": [
+   121938,
+   2.1
+  ],
+  "Papua New Guinea": [
+   106476,
+   1.9
+  ],
+  "South Africa": [
+   63923,
+   1.1
+  ],
+  "Zimbabwe": [
+   57466,
+   1.0
+  ],
+  "Bolivia": [
+   52207,
+   0.9
+  ],
+  "Ukraine": [
+   42722,
+   0.8
+  ],
+  "Peru": [
+   39958,
+   0.7
+  ],
+  "Congo": [
+   39599,
+   0.7
+  ],
+  "China": [
+   37257,
+   0.7
+  ],
+  "Argentina": [
+   35354,
+   0.6
+  ],
+  "Namibia": [
+   31347,
+   0.6
+  ],
+  "Botswana": [
+   22244,
+   0.4
+  ],
+  "S. Sudan": [
+   21953,
+   0.4
+  ],
+  "Paraguay": [
+   21781,
+   0.4
+  ]
+ },
+ "top_countries_by_month": {
+  "2026-07": {
+   "Angola": 110502,
+   "Dem. Rep. Congo": 104796,
+   "Canada": 68448,
+   "Russia": 65355,
+   "Zambia": 61736
+  },
+  "2026-08": {
+   "Russia": 577435,
+   "Dem. Rep. Congo": 378512,
+   "Angola": 311428,
+   "Zambia": 203841,
+   "Mozambique": 147856
+  },
+  "2026-09": {
+   "Mozambique": 207796,
+   "Indonesia": 191989,
+   "Angola": 172970,
+   "Zambia": 154969,
+   "Brazil": 151860
+  },
+  "2026-10": {
+   "Indonesia": 145786,
+   "Brazil": 127508,
+   "Mozambique": 64091,
+   "Papua New Guinea": 48293,
+   "Australia": 47764
+  }
+ },
+ "top_1deg_cells": [
+  {
+   "x": 114.0,
+   "y": -3.0,
+   "n": 29247,
+   "country": "Indonesia"
+  },
+  {
+   "x": 113.0,
+   "y": -3.0,
+   "n": 26257,
+   "country": "Indonesia"
+  },
+  {
+   "x": 117.0,
+   "y": 66.0,
+   "n": 24811,
+   "country": "Russia"
+  },
+  {
+   "x": 109.0,
+   "y": 64.0,
+   "n": 21238,
+   "country": "Russia"
+  },
+  {
+   "x": 117.0,
+   "y": 65.0,
+   "n": 21231,
+   "country": "Russia"
+  },
+  {
+   "x": 110.0,
+   "y": -2.0,
+   "n": 21100,
+   "country": "Indonesia"
+  },
+  {
+   "x": 108.0,
+   "y": 64.0,
+   "n": 20835,
+   "country": "Russia"
+  },
+  {
+   "x": 112.0,
+   "y": -3.0,
+   "n": 20482,
+   "country": "Indonesia"
+  },
+  {
+   "x": 36.0,
+   "y": -17.0,
+   "n": 20381,
+   "country": "Mozambique"
+  },
+  {
+   "x": 76.0,
+   "y": 65.0,
+   "n": 20370,
+   "country": "Russia"
+  },
+  {
+   "x": 115.0,
+   "y": 64.0,
+   "n": 19945,
+   "country": "Russia"
+  },
+  {
+   "x": 105.0,
+   "y": -4.0,
+   "n": 19516,
+   "country": "Indonesia"
+  },
+  {
+   "x": 110.0,
+   "y": -3.0,
+   "n": 17676,
+   "country": "Indonesia"
+  },
+  {
+   "x": 114.0,
+   "y": 64.0,
+   "n": 17340,
+   "country": "Russia"
+  },
+  {
+   "x": 107.0,
+   "y": 65.0,
+   "n": 16394,
+   "country": "Russia"
+  }
+ ],
+ "hemisphere": {
+  "north": 1573767,
+  "south": 4098107
+ },
+ "day_night": {
+  "D": 4071013,
+  "N": 1600861
+ },
+ "countries_with_fires": 204
+}
