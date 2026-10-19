@@ -1,0 +1,40 @@
+/* Shared styles for SpatialStat interactive maps on GitHub Pages.
+   Colours and fonts follow the SpatialStat design system (palette Signal). */
+@import url('https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400..800&display=swap');
+
+:root {
+  --ink: #12262c;
+  --deep: #0b2a30;
+  --night: #02090b;
+  --teal: #006b74;
+  --signal: #00c2cc;
+  --signal-soft: #7ee3e8;
+  --mark: #ff2e63;
+  --sand: #e7b75a;
+  --text: #eef6f6;
+  --text-soft: #c3d6d7;
+  --text-mute: #93b3b5;
+  --line: #2c5a60;
+  --font: 'Schibsted Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body { background: var(--night); color: var(--text); font: 15px/1.5 var(--font); -webkit-font-smoothing: antialiased; display: flex; flex-direction: column; overflow: hidden; }
+a { color: var(--signal-soft); text-underline-offset: 0.2em; }
+a:hover { color: #fff; }
+button { font: inherit; }
+:focus-visible { outline: 2px solid var(--signal-soft); outline-offset: 2px; }
+
+/* Credit bar: always visible, so the licence travels with every embed */
+.credits { flex: none; background: rgba(2, 9, 11, 0.92); border-top: 1px solid var(--line); font-size: 12px; color: var(--text-mute); position: relative; z-index: 10; }
+.credit-line { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; margin: 0; padding: 8px 14px; }
+.credit-line a { color: var(--text-soft); }
+.credit-line .brand img { height: 16px; width: auto; display: block; }
+.credit-line .link { background: none; border: 0; padding: 0; color: var(--signal-soft); text-decoration: underline; text-underline-offset: 0.2em; cursor: pointer; font-size: 12px; }
+.credit-line .link:first-of-type { margin-left: auto; }
+.panel { padding: 0 14px 12px; max-width: 60rem; color: var(--text-soft); }
+.panel p { margin: 0 0 8px; }
+.panel textarea { width: 100%; background: #061418; color: var(--text); border: 1px solid var(--line); border-radius: 4px; font: 12px/1.4 ui-monospace, monospace; padding: 8px; resize: vertical; }
+.copy { margin-top: 6px; background: var(--signal); color: var(--deep); border: 0; border-radius: 4px; font-weight: 700; padding: 6px 12px; cursor: pointer; }
+[hidden] { display: none !important; }
+@media (max-width: 640px) { .credit-line .link:first-of-type { margin-left: 0; } }

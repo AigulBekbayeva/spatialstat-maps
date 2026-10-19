@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fire on Earth: three months of NASA fire detections | SpatialStat</title>
+<meta name="description" content="Interactive globe of vegetation fires detected by NASA satellites over three months, with towns, cities, offshore platforms and gas flares removed. By SpatialStat.">
+<link rel="canonical" href="https://spatialstat.com/">
+<link rel="icon" type="image/svg+xml" href="../shared/brand/favicon.svg">
+<link rel="stylesheet" href="../shared/embed.css">
+<link rel="stylesheet" href="globe.css">
+</head>
+<body>
+<main class="stage" id="stage">
+  <canvas id="globe" role="img" aria-label="Rotating globe showing vegetation fires detected by NASA satellites. Drag to turn it."></canvas>
+
+  <header class="head" id="head">
+    <p class="kicker">SpatialStat · Map of the Week</p>
+    <h1 id="title">Fire on Earth</h1>
+    <p class="period" id="period">Loading data…</p>
+  </header>
+
+  <nav class="months" id="months" aria-label="Choose a period"></nav>
+
+  <div class="legend" aria-hidden="true">
+    <span>Fire detections per cell</span>
+    <span class="ramp"></span>
+    <span class="ticks"><span>1</span><span>5</span><span>20</span><span>50+</span></span>
+  </div>
+
+  <div class="controls">
+    <button type="button" id="zoom-in" aria-label="Zoom in">+</button>
+    <button type="button" id="zoom-out" aria-label="Zoom out">−</button>
+    <button type="button" id="spin" aria-pressed="true">Pause</button>
+  </div>
+</main>
+
+<footer class="credits" id="credits">
+  <p class="credit-line">
+    <a class="brand" href="https://spatialstat.com/" target="_top"><img src="../shared/brand/logo-dark.svg" alt="SpatialStat"></a>
+    <span>Map: <a href="https://spatialstat.com/licensing/" target="_top">SpatialStat, CC BY-NC-ND 4.0</a></span>
+    <span>Fires: <a href="https://firms.modaps.eosdis.nasa.gov/" target="_blank" rel="noopener">NASA FIRMS</a>, VIIRS NOAA-20</span>
+    <span>Settlements: <a href="https://human-settlement.emergency.copernicus.eu/" target="_blank" rel="noopener">GHSL, European Commission</a> (CC BY 4.0)</span>
+    <span>Borders: <a href="https://www.naturalearthdata.com/" target="_blank" rel="noopener">Natural Earth</a></span>
+    <button type="button" class="link" id="about-btn" aria-expanded="false" aria-controls="about">About the data</button>
+    <button type="button" class="link" id="embed-btn" aria-expanded="false" aria-controls="embed">Embed</button>
+  </p>
+  <div class="panel" id="about" hidden>
+    <p>Each glowing cell holds the fires detected by the VIIRS instrument on NASA/NOAA's NOAA-20 satellite (375 m pixels), counted on a grid. A detection is a pixel that was hot when the satellite passed, so one large fire produces many detections and fires under cloud are missed.</p>
+    <p id="method">We kept nominal- and high-confidence detections and removed those offshore, inside towns and cities, and at persistent heat sources such as gas flares.</p>
+    <p>We acknowledge the use of data and imagery from NASA's Fire Information for Resource Management System (FIRMS), part of NASA's Earth Science Data and Information System (ESDIS). Settlement mask: Schiavina M., Melchiorri M., Pesaresi M. (2023), GHS-SMOD R2023A, European Commission, Joint Research Centre. Processed data (fires.json, stats.json) are available under CC BY 4.0 with these credits.</p>
+  </div>
+  <div class="panel" id="embed" hidden>
+    <p>Free to embed on non-commercial sites with this credit. For media and commercial use, see <a href="https://spatialstat.com/licensing/" target="_top">licensing</a>.</p>
+    <textarea id="embed-code" readonly rows="3"></textarea>
+    <button type="button" class="copy" id="copy">Copy code</button>
+  </div>
+</footer>
+
+<script src="../shared/vendor/d3-array.min.js"></script>
+<script src="../shared/vendor/d3-geo.min.js"></script>
+<script src="globe.js"></script>
+</body>
+</html>
