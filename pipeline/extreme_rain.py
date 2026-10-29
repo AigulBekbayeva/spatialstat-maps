@@ -5,8 +5,11 @@ Counts, for every ERA5 grid cell (0.25 degrees, about 28 km), the days a year wi
 and compares 2000-2010 with 2016-2025.
 
 Two steps
-  fetch   Downloads ERA5 daily precipitation from the Copernicus Climate Data Store, one month per request,
-          and keeps only small yearly summaries in pipeline/era5-years/YYYY.npz:
+  fetch   Reads ERA5 precipitation and keeps only small yearly summaries in pipeline/era5-years/YYYY.npz.
+          Finished years come from ARCO-ERA5, Google's public cloud copy of ERA5 (hourly values summed to UTC days;
+          no key, minutes per year). The current year comes from the Copernicus Climate Data Store's daily
+          statistics, one month per request, because ARCO lags real time. Both are the same ERA5 data.
+          Each yearly file holds:
             r50, r100  days with at least 50 / 100 mm
             rx1day     wettest day of the year, 0.1 mm
             total      yearly precipitation, mm
@@ -52,6 +55,9 @@ OUT = ROOT / 'rain-globe' / 'data'
 
 CDS_URL = 'https://cds.climate.copernicus.eu/api'
 DATASET = 'derived-era5-single-levels-daily-statistics'
+# Google's analysis-ready copy of ERA5 (hourly, 0.25 deg, public, no key). Final ERA5 up to the end of last year.
+ARCO_URL = 'gs://gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3'
+ARCO_CONCURRENCY = 64  # hourly chunks read from Google Cloud Storage at once
 NE_COUNTRIES = ('https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/'
                 'ne_50m_admin_0_countries.geojson')
 NE_LAND = 'https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_50m_land.geojson'
@@ -187,6 +193,62 @@ def read_month(path: Path) -> dict:
     return {'mm': mm, 'lat': lat, 'lon': lon, 'unit': unit, 'days': int(mm.shape[0])}
 
 
+_arco = None
+
+
+def arco_dataset():
+    """Open ARCO-ERA5 once (lazy: only metadata is read here)."""
+    global _arco
+    if _arco is None:
+        import xarray as xr
+        try:
+            import zarr
+            zarr.config.set({'async.concurrency': ARCO_CONCURRENCY})
+        except Exception:
+            pass
+        url = os.environ.get('ARCO_URL', ARCO_URL)
+        kw = {'storage_options': {'token': 'anon'}} if url.startswith('gs://') else {}
+        log(f'Opening {url} ...')
+        _arco = xr.open_zarr(url, chunks=None, **kw)
+    return _arco
+
+
+def read_month_arco(year: int, month: int, block_days: int = 4) -> dict:
+    """Daily precipitation in mm for one month from ARCO-ERA5's hourly totals.
+    A day is the sum of the hourly values stamped 00:00 to 23:00 UTC, the same days as the CDS daily statistics."""
+    da = arco_dataset()['total_precipitation']
+    lat = da['latitude'].to_numpy().astype(np.float64)
+    lon = da['longitude'].to_numpy().astype(np.float64)
+    nd = calendar.monthrange(year, month)[1]
+    day_sum = np.empty((nd, len(lat), len(lon)), dtype=np.float32)
+    t_start = time.time()
+    for d0 in range(0, nd, block_days):
+        d1 = min(nd, d0 + block_days)
+        t0 = np.datetime64(f'{year}-{month:02d}-{d0 + 1:02d}T00:00')
+        t1 = t0 + np.timedelta64((d1 - d0) * 24 - 1, 'h')
+        for attempt in range(5):
+            try:
+                blk = da.sel(time=slice(t0, t1)).to_numpy().astype(np.float32, copy=False)
+                break
+            except Exception as e:  # network hiccup: wait and retry
+                log(f'  {year}-{month:02d}-{d0 + 1:02d}: read failed ({str(e)[:200]}), retrying')
+                time.sleep(20 * (attempt + 1))
+        else:
+            raise RuntimeError(f'Could not read ARCO-ERA5 {year}-{month:02d}')
+        if blk.shape[0] != (d1 - d0) * 24:
+            raise SystemExit(f'ARCO-ERA5 has {blk.shape[0]} hours for {year}-{month:02d}-{d0 + 1:02d}, '
+                             f'expected {(d1 - d0) * 24}')
+        if np.isnan(blk).any():
+            raise SystemExit(f'ARCO-ERA5 has missing values in {year}-{month:02d}; use --source cds for this year')
+        day_sum[d0:d1] = blk.reshape(d1 - d0, 24, len(lat), len(lon)).sum(axis=1)
+        del blk
+    factor, unit = unit_factor(day_sum, lat)
+    mm = day_sum * np.float32(factor)
+    mm[mm < 0] = 0
+    log(f'  {year}-{month:02d}: read {nd * 24} hours from ARCO-ERA5 in {(time.time() - t_start) / 60:.1f} min')
+    return {'mm': mm, 'lat': lat, 'lon': lon, 'unit': unit + ', from hourly ARCO-ERA5', 'days': nd}
+
+
 def summarise_month(m: dict) -> dict:
     mm = m['mm']
     return {
@@ -217,7 +279,8 @@ def read_year(path: Path) -> dict:
     return d
 
 
-def fetch_year(client, year: int, workers: int, keep: bool, months: list[int] | None = None) -> Path:
+def fetch_year(client, year: int, workers: int, keep: bool, months: list[int] | None = None,
+               source: str = 'cds') -> Path:
     """Download the given months of a year (all 12 by default) and save the yearly summary.
     For the current, unfinished year, months already saved are kept and only new ones are downloaded."""
     out = YEARS_DIR / f'{year}.npz'
@@ -229,6 +292,8 @@ def fetch_year(client, year: int, workers: int, keep: bool, months: list[int] | 
     parts: dict[int, dict] = {}
 
     def job(month):
+        if source == 'arco':
+            return month, summarise_month(read_month_arco(year, month))
         f = request_month(client, year, month, tmpdir / f'{year}-{month:02d}.nc')
         with NETCDF_LOCK:  # one month in memory at a time, and netCDF is not thread-safe
             s = summarise_month(read_month(f))
@@ -236,7 +301,7 @@ def fetch_year(client, year: int, workers: int, keep: bool, months: list[int] | 
             f.unlink(missing_ok=True)
         return month, s
 
-    with ThreadPoolExecutor(max_workers=workers) as ex:
+    with ThreadPoolExecutor(max_workers=1 if source == 'arco' else workers) as ex:
         for fut in as_completed([ex.submit(job, m) for m in todo]):
             month, s = fut.result()
             parts[month] = s
@@ -267,8 +332,10 @@ def fetch_year(client, year: int, workers: int, keep: bool, months: list[int] | 
         total=np.clip(np.round(total), 0, 65535).astype(np.uint16),
         lat=ref['lat'].astype(np.float32), lon=ref['lon'].astype(np.float32),
         info=np.array(json.dumps({'year': year, 'months': got, 'complete': len(got) == 12, 'days': days,
-                                  'unit_detected': ref['unit'], 'dataset': DATASET,
-                                  'statistic': 'daily_mean x 24 h, UTC days',
+                                  'unit_detected': ref['unit'],
+                                  'dataset': ARCO_URL if source == 'arco' else DATASET,
+                                  'statistic': ('sum of hourly totals 00-23 UTC' if source == 'arco'
+                                                else 'daily_mean x 24 h, UTC days'),
                                   'made': dt.datetime.now(dt.timezone.utc).strftime('%Y-%m-%dT%H:%MZ')})))
     log(f'{year}: saved {out.name} ({out.stat().st_size / 1e6:.1f} MB), months {got[0]}-{got[-1]}; '
         f'unit {ref["unit"]}; mean days >= 50 mm per cell {float(np.mean(r50)):.2f}; max {int(r50.max())}')
@@ -318,10 +385,18 @@ def cmd_fetch(a):
     if not todo and not cy_months and not unfinished:
         return
     key = a.cds_key or os.environ.get('CDSAPI_KEY')
-    if not key and not Path('~/.cdsapirc').expanduser().exists():
-        raise SystemExit('No CDS token. Set CDSAPI_KEY (in GitHub: Settings > Secrets and variables > Actions). '
-                         'Free token: https://cds.climate.copernicus.eu (profile page).')
-    client = cds_client(key)
+    clients = {}
+
+    def client_for(src):
+        if src != 'cds':
+            return None
+        if 'cds' not in clients:
+            if not key and not Path('~/.cdsapirc').expanduser().exists():
+                raise SystemExit('No CDS token. Set CDSAPI_KEY (in GitHub: Settings > Secrets and variables > '
+                                 'Actions). Free token: https://cds.climate.copernicus.eu (profile page).')
+            clients['cds'] = cds_client(key)
+        return clients['cds']
+
     t_start = time.time()
     done = []
     # The current year first: it is quick and it is the news.
@@ -338,7 +413,11 @@ def cmd_fetch(a):
             break
         t0 = time.time()
         log(f'--- {y} ---')
-        path = fetch_year(client, y, a.workers, a.keep, months)
+        # Finished years from ARCO-ERA5 (fast, no queue); the current, unfinished year from CDS,
+        # because ARCO's copy lags real time by months.
+        src = a.source if months is None else 'cds'
+        log(f'    source: {"ARCO-ERA5 (Google Cloud)" if src == "arco" else "Copernicus CDS"}')
+        path = fetch_year(client_for(src), y, a.workers, a.keep, months, src)
         done.append(y)
         if months is None:
             a.minutes_per_year = max(a.minutes_per_year, (time.time() - t0) / 60)
@@ -676,6 +755,9 @@ def main():
     f = sub.choices['fetch']
     f.add_argument('--extra-years', nargs='*', default=[], help='more years to download, e.g. 2011 2012')
     f.add_argument('--cds-key', help='CDS personal access token (or set CDSAPI_KEY, or use ~/.cdsapirc)')
+    f.add_argument('--source', choices=['arco', 'cds'], default='arco',
+                   help='where finished years come from: arco = Google ARCO-ERA5, fast (default); '
+                        'cds = Copernicus daily statistics, about 20 min per month')
     f.add_argument('--workers', type=int, default=1,
                    help='monthly requests sent to CDS at once (default 1: CDS rejects parallel requests to this dataset)')
     f.add_argument('--budget', type=float, default=1e9, help='stop starting new years after this many minutes')
