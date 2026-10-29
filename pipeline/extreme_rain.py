@@ -122,16 +122,25 @@ def request_month(client, year: int, month: int, dest: Path) -> Path:
         'download_format': 'unarchived',
     }
     tmp = dest.with_suffix('.part')
-    for attempt in range(5):
+    attempt, waited = 0, 0
+    while attempt < 5:
         try:
             t0 = time.time()
             client.retrieve(DATASET, req, str(tmp))
             tmp.rename(dest)
             log(f'  {year}-{month:02d}: downloaded {dest.stat().st_size / 1e6:.0f} MB in {(time.time() - t0) / 60:.1f} min')
             return dest
-        except Exception as e:  # queue hiccup, network error, rate limit: wait and retry
-            log(f'  {year}-{month:02d}: attempt {attempt + 1} failed: {str(e)[:300]}')
-            time.sleep(60 * (attempt + 1))
+        except Exception as e:
+            msg = str(e)
+            if 'queued requests' in msg.lower() and waited < 90 * 60:
+                # CDS queue for this dataset is full (e.g. jobs left over from an earlier run): wait, don't count it
+                log(f'  {year}-{month:02d}: CDS queue full, waiting 2 min')
+                time.sleep(120)
+                waited += 120
+                continue
+            attempt += 1  # network error, server hiccup: wait longer each time
+            log(f'  {year}-{month:02d}: attempt {attempt} failed: {msg[:300]}')
+            time.sleep(60 * attempt)
     raise RuntimeError(f'Could not download {year}-{month:02d}')
 
 
@@ -667,7 +676,8 @@ def main():
     f = sub.choices['fetch']
     f.add_argument('--extra-years', nargs='*', default=[], help='more years to download, e.g. 2011 2012')
     f.add_argument('--cds-key', help='CDS personal access token (or set CDSAPI_KEY, or use ~/.cdsapirc)')
-    f.add_argument('--workers', type=int, default=12, help='monthly requests sent to CDS at once (default 12)')
+    f.add_argument('--workers', type=int, default=1,
+                   help='monthly requests sent to CDS at once (default 1: CDS rejects parallel requests to this dataset)')
     f.add_argument('--budget', type=float, default=1e9, help='stop starting new years after this many minutes')
     f.add_argument('--minutes-per-year', type=float, default=20, help='first guess of time per year, for --budget')
     f.add_argument('--git-commit', action='store_true', help='commit and push each finished year (GitHub Actions)')
