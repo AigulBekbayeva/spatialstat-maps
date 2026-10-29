@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Where rainfall is becoming extreme | SpatialStat</title>
+<meta name="description" content="Interactive globe of days with 50 mm of rain or more, 2000–2010 compared with 2016–2025, from the ERA5 climate reanalysis. By SpatialStat.">
+<link rel="canonical" href="https://spatialstat.com/">
+<link rel="icon" type="image/svg+xml" href="../shared/brand/favicon.svg">
+<link rel="stylesheet" href="../shared/embed.css">
+<link rel="stylesheet" href="rain.css">
+</head>
+<body>
+<main class="stage" id="stage">
+  <canvas id="earth" aria-hidden="true"></canvas>
+  <canvas id="globe" role="img" aria-label="Rotating globe showing how often a day brings 50 mm of rain or more, and how that changed between 2000–2010 and 2016–2025. Drag to turn it."></canvas>
+
+  <header class="head" id="head">
+    <p class="kicker">SpatialStat · Map of the Week</p>
+    <h1 id="title">Where rainfall is becoming extreme</h1>
+    <p class="period" id="period">Loading data…</p>
+  </header>
+
+  <nav class="views" id="views" aria-label="Choose a view">
+    <button type="button" data-view="a">2000–2010</button>
+    <button type="button" data-view="b">2016–2025</button>
+    <button type="button" data-view="change">Change</button>
+    <button type="button" data-view="c" hidden>2026</button>
+  </nav>
+
+  <div class="legend" id="legend" aria-hidden="true">
+    <span class="legend-title" id="legend-title">Days a year with 50 mm of rain or more</span>
+    <span class="ramp" id="ramp"></span>
+    <span class="ticks" id="ticks"></span>
+    <span class="legend-note" id="legend-note"></span>
+  </div>
+
+  <div class="tip" id="tip" hidden></div>
+
+  <div class="controls">
+    <button type="button" id="play" aria-pressed="false" title="Switch between the two periods">Compare</button>
+    <button type="button" id="zoom-in" aria-label="Zoom in">+</button>
+    <button type="button" id="zoom-out" aria-label="Zoom out">−</button>
+    <button type="button" id="spin" aria-pressed="true">Pause</button>
+  </div>
+</main>
+
+<footer class="credits" id="credits">
+  <p class="credit-line">
+    <a class="brand" href="https://spatialstat.com/" target="_top"><img src="../shared/brand/logo-dark.svg" alt="SpatialStat"></a>
+    <span>Map: <a href="https://spatialstat.com/licensing/" target="_top">SpatialStat, CC BY-NC-ND 4.0</a></span>
+    <span>Rain: <a href="https://cds.climate.copernicus.eu/datasets/derived-era5-single-levels-daily-statistics" target="_blank" rel="noopener">ERA5, Copernicus Climate Change Service / ECMWF</a> (CC BY 4.0)</span>
+    <span>Imagery: <a href="https://visibleearth.nasa.gov/collection/1484/blue-marble" target="_blank" rel="noopener">NASA Blue Marble</a></span>
+    <span>Borders: <a href="https://www.naturalearthdata.com/" target="_blank" rel="noopener">Natural Earth</a></span>
+    <button type="button" class="link" id="about-btn" aria-expanded="false" aria-controls="about">About the data</button>
+    <button type="button" class="link" id="embed-btn" aria-expanded="false" aria-controls="embed">Embed</button>
+  </p>
+  <div class="panel" id="about" hidden>
+    <p>For every cell of the ERA5 grid (0.25°, about 28 km) we counted the days a year when 50 mm of rain or more fell (snow and hail counted as water), then averaged the yearly counts over 2000–2010 and over 2016–2025. The map shows those averages on a 0.5° grid. Days run from midnight to midnight UTC.</p>
+    <p id="method">“Change” is the second period minus the first. A change is shown bright when it is larger than normal year-to-year variation (Welch's t-test on the yearly counts, p &lt; 0.05) and faint when it is not. Even with no real change, about one cell in twenty would pass this test by chance, so look for whole regions rather than single cells.</p>
+    <p>The current year is shown on its own and only for complete months (ERA5 runs about five days behind real time). It is compared with the same months in the earlier years, not with whole years.</p>
+    <p>ERA5 is a climate reanalysis: a weather model combined with observations, not a rain gauge. Its 28 km cells smooth out the heaviest local downpours, so it counts fewer extreme days than gauges and radars do, especially in thunderstorms and on mountains. Treat the numbers as a consistent comparison between periods, not as local records.</p>
+    <p>Generated using Copernicus Climate Change Service information (2026). Neither the European Commission nor ECMWF is responsible for any use that may be made of the Copernicus information or data it contains. Hersbach, H. et al. (2020), The ERA5 global reanalysis, QJRMS 146, 1999–2049. Satellite image of the Earth: NASA Visible Earth, Blue Marble (public domain). Processed data (rain.json, stats.json) are available under CC BY 4.0 with these credits.</p>
+  </div>
+  <div class="panel" id="embed" hidden>
+    <p>Free to embed on non-commercial sites with this credit. For media and commercial use, see <a href="https://spatialstat.com/licensing/" target="_top">licensing</a>.</p>
+    <textarea id="embed-code" readonly rows="3"></textarea>
+    <button type="button" class="copy" id="copy">Copy code</button>
+  </div>
+</footer>
+
+<script src="../shared/vendor/d3-array.min.js"></script>
+<script src="../shared/vendor/d3-geo.min.js"></script>
+<script src="rain.js"></script>
+</body>
+</html>
