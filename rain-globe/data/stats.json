@@ -1,0 +1,992 @@
+{
+ "meta": {
+  "title": "Days with extreme rainfall",
+  "variable": "days a year with at least 50 mm of precipitation (ERA5)",
+  "threshold_mm": 50,
+  "periods": {
+   "a": [
+    2000,
+    2010
+   ],
+   "b": [
+    2016,
+    2025
+   ]
+  },
+  "years": {
+   "a": [
+    2000,
+    2001,
+    2002,
+    2003,
+    2004,
+    2005,
+    2006,
+    2007,
+    2008,
+    2009,
+    2010
+   ],
+   "b": [
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025
+   ]
+  },
+  "grid": 0.5,
+  "origin": [
+   -179.875,
+   89.875
+  ],
+  "cells": 125510,
+  "source": "ERA5 post-processed daily statistics on single levels (Copernicus C3S / ECMWF), 0.25 deg, UTC days",
+  "test": "Welch's t-test on yearly counts; sig 2 = p < 0.05, 1 = p < 0.1",
+  "global": {
+   "mean_days_land": [
+    0.613,
+    0.742
+   ],
+   "mean_days_ocean": [
+    1.35,
+    1.643
+   ],
+   "mean_days_all": [
+    1.139,
+    1.384
+   ],
+   "land_area_pct_with_1plus_day": [
+    15.6,
+    20.0
+   ],
+   "wet_land_pct_robust_increase": 17.8,
+   "wet_land_pct_robust_decrease": 1.4,
+   "wet_area_pct_robust_increase": 13.8,
+   "wet_area_pct_robust_decrease": 0.9
+  },
+  "current": {
+   "year": 2026,
+   "months": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+   ],
+   "label": "Jan\u2013Sep 2026",
+   "mean_days_land": [
+    0.482,
+    0.588,
+    0.549
+   ],
+   "land_pct_above_period_a": 47.8,
+   "land_pct_record": 6.1
+  },
+  "generated": "2026-10-29T15:49Z",
+  "format": "cells is a flat list of 9 numbers per cell: gi, gj, days a year x10 in period a, in period b, sig (0-2), land share x9, current-year days x10 (complete months only), period-a average for the same months x10, 1 if the current year beats every year of both periods. lon = origin[0] + gi*grid, lat = origin[1] - gj*grid (cell centre)"
+ },
+ "by_year": {
+  "2000": {
+   "mean_days_land": 0.631,
+   "mean_days_ocean": 1.125,
+   "land_area_pct_with_1plus_day": 18.8
+  },
+  "2001": {
+   "mean_days_land": 0.539,
+   "mean_days_ocean": 1.209,
+   "land_area_pct_with_1plus_day": 16.3
+  },
+  "2002": {
+   "mean_days_land": 0.568,
+   "mean_days_ocean": 1.372,
+   "land_area_pct_with_1plus_day": 16.7
+  },
+  "2003": {
+   "mean_days_land": 0.581,
+   "mean_days_ocean": 1.374,
+   "land_area_pct_with_1plus_day": 17.8
+  },
+  "2004": {
+   "mean_days_land": 0.573,
+   "mean_days_ocean": 1.346,
+   "land_area_pct_with_1plus_day": 17.8
+  },
+  "2005": {
+   "mean_days_land": 0.576,
+   "mean_days_ocean": 1.403,
+   "land_area_pct_with_1plus_day": 18.0
+  },
+  "2006": {
+   "mean_days_land": 0.597,
+   "mean_days_ocean": 1.371,
+   "land_area_pct_with_1plus_day": 17.6
+  },
+  "2007": {
+   "mean_days_land": 0.67,
+   "mean_days_ocean": 1.409,
+   "land_area_pct_with_1plus_day": 19.8
+  },
+  "2008": {
+   "mean_days_land": 0.658,
+   "mean_days_ocean": 1.274,
+   "land_area_pct_with_1plus_day": 19.9
+  },
+  "2009": {
+   "mean_days_land": 0.611,
+   "mean_days_ocean": 1.443,
+   "land_area_pct_with_1plus_day": 18.1
+  },
+  "2010": {
+   "mean_days_land": 0.736,
+   "mean_days_ocean": 1.529,
+   "land_area_pct_with_1plus_day": 21.6
+  },
+  "2016": {
+   "mean_days_land": 0.708,
+   "mean_days_ocean": 1.713,
+   "land_area_pct_with_1plus_day": 20.9
+  },
+  "2017": {
+   "mean_days_land": 0.698,
+   "mean_days_ocean": 1.55,
+   "land_area_pct_with_1plus_day": 20.5
+  },
+  "2018": {
+   "mean_days_land": 0.649,
+   "mean_days_ocean": 1.63,
+   "land_area_pct_with_1plus_day": 19.9
+  },
+  "2019": {
+   "mean_days_land": 0.68,
+   "mean_days_ocean": 1.732,
+   "land_area_pct_with_1plus_day": 19.8
+  },
+  "2020": {
+   "mean_days_land": 0.809,
+   "mean_days_ocean": 1.68,
+   "land_area_pct_with_1plus_day": 24.0
+  },
+  "2021": {
+   "mean_days_land": 0.723,
+   "mean_days_ocean": 1.623,
+   "land_area_pct_with_1plus_day": 21.9
+  },
+  "2022": {
+   "mean_days_land": 0.756,
+   "mean_days_ocean": 1.56,
+   "land_area_pct_with_1plus_day": 23.4
+  },
+  "2023": {
+   "mean_days_land": 0.7,
+   "mean_days_ocean": 1.65,
+   "land_area_pct_with_1plus_day": 21.3
+  },
+  "2024": {
+   "mean_days_land": 0.905,
+   "mean_days_ocean": 1.752,
+   "land_area_pct_with_1plus_day": 25.4
+  },
+  "2025": {
+   "mean_days_land": 0.79,
+   "mean_days_ocean": 1.54,
+   "land_area_pct_with_1plus_day": 22.7
+  }
+ },
+ "days_100mm": {
+  "mean_days_land": [
+   0.083,
+   0.1
+  ]
+ },
+ "wettest_day_mm_land_mean": [
+  36.5,
+  39.1
+ ],
+ "annual_total_mm_land_mean": [
+  823,
+  821
+ ],
+ "top_countries_increase": [
+  {
+   "country": "Fiji",
+   "continent": "Oceania",
+   "cells": 6,
+   "days_a": 3.49,
+   "days_b": 6.83,
+   "change": 3.34,
+   "change_pct": 95.8,
+   "pct_area_robust_increase": 100.0,
+   "pct_area_robust_decrease": 0.0,
+   "rx1day_a_mm": 88.4,
+   "rx1day_b_mm": 116.5,
+   "total_a_mm": 2215,
+   "total_b_mm": 2606
+  },
+  {
+   "country": "Sierra Leone",
+   "continent": "Africa",
+   "cells": 24,
+   "days_a": 3.99,
+   "days_b": 6.52,
+   "change": 2.53,
+   "change_pct": 63.3,
+   "pct_area_robust_increase": 58.4,
+   "pct_area_robust_decrease": 0.0,
+   "rx1day_a_mm": 109.1,
+   "rx1day_b_mm": 129.9,
+   "total_a_mm": 2438,
+   "total_b_mm": 2608
+  },
+  {
+   "country": "Papua New Guinea",
+   "continent": "Oceania",
+   "cells": 148,
+   "days_a": 6.39,
+   "days_b": 8.81,
+   "change": 2.43,
+   "change_pct": 38.0,
+   "pct_area_robust_increase": 54.1,
+   "pct_area_robust_decrease": 0.0,
+   "rx1day_a_mm": 96.3,
+   "rx1day_b_mm": 106.3,
+   "total_a_mm": 3838,
+   "total_b_mm": 4256
+  },
+  {
+   "country": "Guinea-Bissau",
+   "continent": "Africa",
+   "cells": 12,
+   "days_a": 1.18,
+   "days_b": 3.41,
+   "change": 2.22,
+   "change_pct": 187.9,
+   "pct_area_robust_increase": 100.0,
+   "pct_area_robust_decrease": 0.0,
+   "rx1day_a_mm": 73.0,
+   "rx1day_b_mm": 111.9,
+   "total_a_mm": 1189,
+   "total_b_mm": 1433
+  },
+  {
+   "country": "French Guiana",
+   "continent": "South America",
+   "cells": 30,
+   "days_a": 1.2,
+   "days_b": 3.32,
+   "change": 2.12,
+   "change_pct": 176.5,
+   "pct_area_robust_increase": 70.0,
+   "pct_area_robust_decrease": 0.0,
+   "rx1day_a_mm": 72.2,
+   "rx1day_b_mm": 95.9,
+   "total_a_mm": 1897,
+   "total_b_mm": 2397
+  },
+  {
+   "country": "Suriname",
+   "continent": "South America",
+   "cells": 48,
+   "days_a": 1.17,
+   "days_b": 3.14,
+   "change": 1.97,
+   "change_pct": 167.9,
+   "pct_area_robust_increase": 85.4,
+   "pct_area_robust_decrease": 0.0,
+   "rx1day_a_mm": 69.7,
+   "rx1day_b_mm": 96.0,
+   "total_a_mm": 1806,
+   "total_b_mm": 2287
+  },
+  {
+   "country": "Liberia",
+   "continent": "Africa",
+   "cells": 30,
+   "days_a": 2.93,
+   "days_b": 4.58,
+   "change": 1.65,
+   "change_pct": 56.3,
+   "pct_area_robust_increase": 43.4,
+   "pct_area_robust_decrease": 0.0,
+   "rx1day_a_mm": 93.6,
+   "rx1day_b_mm": 114.5,
+   "total_a_mm": 2359,
+   "total_b_mm": 2431
+  },
+  {
+   "country": "Indonesia",
+   "continent": "Asia",
+   "cells": 585,
+   "days_a": 3.17,
+   "days_b": 4.8,
+   "change": 1.63,
+   "change_pct": 51.6,
+   "pct_area_robust_increase": 43.6,
+   "pct_area_robust_decrease": 0.0,
+   "rx1day_a_mm": 71.4,
+   "rx1day_b_mm": 84.7,
+   "total_a_mm": 3168,
+   "total_b_mm": 3444
+  },
+  {
+   "country": "Philippines",
+   "continent": "Asia",
+   "cells": 86,
+   "days_a": 4.22,
+   "days_b": 5.65,
+   "change": 1.43,
+   "change_pct": 33.8,
+   "pct_area_robust_increase": 24.7,
+   "pct_area_robust_decrease": 0.0,
+   "rx1day_a_mm": 104.4,
+   "rx1day_b_mm": 115.9,
+   "total_a_mm": 2705,
+   "total_b_mm": 3040
+  },
+  {
+   "country": "Malawi",
+   "continent": "Africa",
+   "cells": 41,
+   "days_a": 1.23,
+   "days_b": 2.28,
+   "change": 1.05,
+   "change_pct": 85.9,
+   "pct_area_robust_increase": 34.2,
+   "pct_area_robust_decrease": 0.0,
+   "rx1day_a_mm": 54.9,
+   "rx1day_b_mm": 75.2,
+   "total_a_mm": 1366,
+   "total_b_mm": 1459
+  },
+  {
+   "country": "Guinea",
+   "continent": "Africa",
+   "cells": 78,
+   "days_a": 1.69,
+   "days_b": 2.73,
+   "change": 1.04,
+   "change_pct": 61.7,
+   "pct_area_robust_increase": 30.7,
+   "pct_area_robust_decrease": 0.0,
+   "rx1day_a_mm": 75.5,
+   "rx1day_b_mm": 88.2,
+   "total_a_mm": 1663,
+   "total_b_mm": 1708
+  },
+  {
+   "country": "New Caledonia",
+   "continent": "Oceania",
+   "cells": 5,
+   "days_a": 3.07,
+   "days_b": 4.04,
+   "change": 0.97,
+   "change_pct": 31.7,
+   "pct_area_robust_increase": 0.0,
+   "pct_area_robust_decrease": 0.0,
+   "rx1day_a_mm": 90.6,
+   "rx1day_b_mm": 112.9,
+   "total_a_mm": 1362,
+   "total_b_mm": 1581
+  },
+  {
+   "country": "Sri Lanka",
+   "continent": "Asia",
+   "cells": 20,
+   "days_a": 2.06,
+   "days_b": 2.99,
+   "change": 0.93,
+   "change_pct": 45.2,
+   "pct_area_robust_increase": 5.0,
+   "pct_area_robust_decrease": 0.0,
+   "rx1day_a_mm": 73.7,
+   "rx1day_b_mm": 96.0,
+   "total_a_mm": 1798,
+   "total_b_mm": 1864
+  },
+  {
+   "country": "Nicaragua",
+   "continent": "North America",
+   "cells": 43,
+   "days_a": 0.89,
+   "days_b": 1.81,
+   "change": 0.92,
+   "change_pct": 103.8,
+   "pct_area_robust_increase": 34.9,
+   "pct_area_robust_decrease": 0.0,
+   "rx1day_a_mm": 57.3,
+   "rx1day_b_mm": 80.5,
+   "total_a_mm": 1769,
+   "total_b_mm": 1966
+  },
+  {
+   "country": "Guyana",
+   "continent": "South America",
+   "cells": 66,
+   "days_a": 1.37,
+   "days_b": 2.26,
+   "change": 0.89,
+   "change_pct": 64.9,
+   "pct_area_robust_increase": 40.9,
+   "pct_area_robust_decrease": 0.0,
+   "rx1day_a_mm": 66.1,
+   "rx1day_b_mm": 85.1,
+   "total_a_mm": 1973,
+   "total_b_mm": 2217
+  }
+ ],
+ "top_countries_decrease": [
+  {
+   "country": "Taiwan",
+   "continent": "Asia",
+   "cells": 12,
+   "days_a": 9.17,
+   "days_b": 7.75,
+   "change": -1.42,
+   "change_pct": -15.5,
+   "pct_area_robust_increase": 0.0,
+   "pct_area_robust_decrease": 0.0,
+   "rx1day_a_mm": 216.3,
+   "rx1day_b_mm": 161.1,
+   "total_a_mm": 2907,
+   "total_b_mm": 2687
+  },
+  {
+   "country": "Costa Rica",
+   "continent": "North America",
+   "cells": 15,
+   "days_a": 8.7,
+   "days_b": 7.79,
+   "change": -0.9,
+   "change_pct": -10.4,
+   "pct_area_robust_increase": 6.6,
+   "pct_area_robust_decrease": 6.7,
+   "rx1day_a_mm": 119.6,
+   "rx1day_b_mm": 122.7,
+   "total_a_mm": 3615,
+   "total_b_mm": 3390
+  },
+  {
+   "country": "Bangladesh",
+   "continent": "Asia",
+   "cells": 48,
+   "days_a": 4.99,
+   "days_b": 4.34,
+   "change": -0.65,
+   "change_pct": -13.0,
+   "pct_area_robust_increase": 0.0,
+   "pct_area_robust_decrease": 4.2,
+   "rx1day_a_mm": 102.8,
+   "rx1day_b_mm": 98.6,
+   "total_a_mm": 2302,
+   "total_b_mm": 2115
+  },
+  {
+   "country": "Bhutan",
+   "continent": "Asia",
+   "cells": 17,
+   "days_a": 9.75,
+   "days_b": 9.39,
+   "change": -0.36,
+   "change_pct": -3.7,
+   "pct_area_robust_increase": 0.0,
+   "pct_area_robust_decrease": 5.9,
+   "rx1day_a_mm": 123.8,
+   "rx1day_b_mm": 113.2,
+   "total_a_mm": 3244,
+   "total_b_mm": 3277
+  },
+  {
+   "country": "Chile",
+   "continent": "South America",
+   "cells": 314,
+   "days_a": 2.51,
+   "days_b": 2.2,
+   "change": -0.31,
+   "change_pct": -12.3,
+   "pct_area_robust_increase": 0.3,
+   "pct_area_robust_decrease": 9.8,
+   "rx1day_a_mm": 47.3,
+   "rx1day_b_mm": 43.6,
+   "total_a_mm": 1563,
+   "total_b_mm": 1473
+  },
+  {
+   "country": "eSwatini",
+   "continent": "Africa",
+   "cells": 6,
+   "days_a": 1.08,
+   "days_b": 0.81,
+   "change": -0.27,
+   "change_pct": -24.7,
+   "pct_area_robust_increase": 0.0,
+   "pct_area_robust_decrease": 0.0,
+   "rx1day_a_mm": 70.8,
+   "rx1day_b_mm": 54.1,
+   "total_a_mm": 945,
+   "total_b_mm": 904
+  },
+  {
+   "country": "Argentina",
+   "continent": "South America",
+   "cells": 1118,
+   "days_a": 1.1,
+   "days_b": 0.89,
+   "change": -0.21,
+   "change_pct": -19.4,
+   "pct_area_robust_increase": 0.1,
+   "pct_area_robust_decrease": 4.4,
+   "rx1day_a_mm": 49.2,
+   "rx1day_b_mm": 47.7,
+   "total_a_mm": 791,
+   "total_b_mm": 674
+  },
+  {
+   "country": "Uruguay",
+   "continent": "South America",
+   "cells": 68,
+   "days_a": 2.83,
+   "days_b": 2.62,
+   "change": -0.21,
+   "change_pct": -7.6,
+   "pct_area_robust_increase": 0.0,
+   "pct_area_robust_decrease": 0.0,
+   "rx1day_a_mm": 74.1,
+   "rx1day_b_mm": 70.1,
+   "total_a_mm": 1321,
+   "total_b_mm": 1200
+  },
+  {
+   "country": "Bosnia and Herz.",
+   "continent": "Europe",
+   "cells": 21,
+   "days_a": 0.93,
+   "days_b": 0.77,
+   "change": -0.16,
+   "change_pct": -17.5,
+   "pct_area_robust_increase": 9.5,
+   "pct_area_robust_decrease": 9.6,
+   "rx1day_a_mm": 49.9,
+   "rx1day_b_mm": 46.5,
+   "total_a_mm": 1261,
+   "total_b_mm": 1178
+  },
+  {
+   "country": "Montenegro",
+   "continent": "Europe",
+   "cells": 6,
+   "days_a": 3.28,
+   "days_b": 3.15,
+   "change": -0.12,
+   "change_pct": -3.7,
+   "pct_area_robust_increase": 0.0,
+   "pct_area_robust_decrease": 0.0,
+   "rx1day_a_mm": 65.7,
+   "rx1day_b_mm": 64.4,
+   "total_a_mm": 1592,
+   "total_b_mm": 1558
+  }
+ ],
+ "top_cells_increase": [
+  {
+   "lon": 138.12,
+   "lat": -4.62,
+   "country": "Indonesia",
+   "days_a": 41.2,
+   "days_b": 55.9,
+   "p": 0.0405
+  },
+  {
+   "lon": 137.62,
+   "lat": -3.62,
+   "country": "Indonesia",
+   "days_a": 38.7,
+   "days_b": 51.8,
+   "p": 0.0069
+  },
+  {
+   "lon": 137.12,
+   "lat": -4.62,
+   "country": "Indonesia",
+   "days_a": 31.8,
+   "days_b": 42.3,
+   "p": 0.0163
+  },
+  {
+   "lon": 137.12,
+   "lat": -4.12,
+   "country": "Indonesia",
+   "days_a": 38.1,
+   "days_b": 48.4,
+   "p": 0.0101
+  },
+  {
+   "lon": 137.12,
+   "lat": -3.62,
+   "country": "Indonesia",
+   "days_a": 15.5,
+   "days_b": 25.4,
+   "p": 0.0
+  },
+  {
+   "lon": 147.62,
+   "lat": -6.62,
+   "country": "Papua New Guinea",
+   "days_a": 13.5,
+   "days_b": 23.2,
+   "p": 0.0314
+  },
+  {
+   "lon": 138.12,
+   "lat": -3.62,
+   "country": "Indonesia",
+   "days_a": 35.0,
+   "days_b": 43.6,
+   "p": 0.0183
+  },
+  {
+   "lon": 137.62,
+   "lat": -4.62,
+   "country": "Indonesia",
+   "days_a": 25.7,
+   "days_b": 34.2,
+   "p": 0.044
+  },
+  {
+   "lon": 146.62,
+   "lat": -6.12,
+   "country": "Papua New Guinea",
+   "days_a": 23.7,
+   "days_b": 31.9,
+   "p": 0.0013
+  },
+  {
+   "lon": 139.12,
+   "lat": -5.12,
+   "country": "Indonesia",
+   "days_a": 18.5,
+   "days_b": 26.4,
+   "p": 0.0319
+  },
+  {
+   "lon": 9.12,
+   "lat": 4.38,
+   "country": "Cameroon",
+   "days_a": 8.5,
+   "days_b": 16.4,
+   "p": 0.0018
+  },
+  {
+   "lon": 138.12,
+   "lat": -3.12,
+   "country": "Indonesia",
+   "days_a": 7.6,
+   "days_b": 15.4,
+   "p": 0.0015
+  },
+  {
+   "lon": 147.12,
+   "lat": -6.12,
+   "country": "Papua New Guinea",
+   "days_a": 36.1,
+   "days_b": 43.8,
+   "p": 0.0133
+  },
+  {
+   "lon": 140.62,
+   "lat": -4.12,
+   "country": "Indonesia",
+   "days_a": 28.4,
+   "days_b": 36.0,
+   "p": 0.039
+  },
+  {
+   "lon": 150.62,
+   "lat": -5.62,
+   "country": "Papua New Guinea",
+   "days_a": 6.3,
+   "days_b": 13.9,
+   "p": 0.0007
+  }
+ ],
+ "top_cells_decrease": [
+  {
+   "lon": -77.38,
+   "lat": 2.88,
+   "country": "Colombia",
+   "days_a": 74.7,
+   "days_b": 48.3,
+   "p": 0.0
+  },
+  {
+   "lon": -76.88,
+   "lat": 3.38,
+   "country": "Colombia",
+   "days_a": 110.8,
+   "days_b": 90.4,
+   "p": 0.0
+  },
+  {
+   "lon": -76.88,
+   "lat": 3.88,
+   "country": "Colombia",
+   "days_a": 78.3,
+   "days_b": 59.2,
+   "p": 0.0
+  },
+  {
+   "lon": -78.38,
+   "lat": 0.88,
+   "country": "Ecuador",
+   "days_a": 84.5,
+   "days_b": 68.4,
+   "p": 0.0026
+  },
+  {
+   "lon": -77.88,
+   "lat": 2.38,
+   "country": "Colombia",
+   "days_a": 98.3,
+   "days_b": 82.8,
+   "p": 0.0019
+  },
+  {
+   "lon": -76.38,
+   "lat": 6.38,
+   "country": "Colombia",
+   "days_a": 73.7,
+   "days_b": 59.0,
+   "p": 0.0003
+  },
+  {
+   "lon": -76.88,
+   "lat": 2.88,
+   "country": "Colombia",
+   "days_a": 45.9,
+   "days_b": 31.8,
+   "p": 0.0
+  },
+  {
+   "lon": -77.38,
+   "lat": 4.38,
+   "country": "Colombia",
+   "days_a": 87.7,
+   "days_b": 73.6,
+   "p": 0.0037
+  },
+  {
+   "lon": -73.38,
+   "lat": 7.38,
+   "country": "Colombia",
+   "days_a": 28.5,
+   "days_b": 14.9,
+   "p": 0.0005
+  },
+  {
+   "lon": -77.38,
+   "lat": 2.38,
+   "country": "Colombia",
+   "days_a": 82.8,
+   "days_b": 69.9,
+   "p": 0.0009
+  }
+ ],
+ "current": {
+  "year": 2026,
+  "months": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9
+  ],
+  "label": "Jan\u2013Sep 2026",
+  "mean_days_land": [
+   0.482,
+   0.588,
+   0.549
+  ],
+  "land_pct_above_period_a": 47.8,
+  "land_pct_record": 6.1,
+  "top_cells_above_usual": [
+   {
+    "lon": 161.12,
+    "lat": -9.12,
+    "country": "Solomon Is.",
+    "days_a": 3.0,
+    "days_b": 9.4,
+    "p": 0.0002,
+    "days_current": 15.8,
+    "usual_same_months_a": 2.6,
+    "record": true
+   },
+   {
+    "lon": 5.62,
+    "lat": 4.88,
+    "country": "Nigeria",
+    "days_a": 2.9,
+    "days_b": 6.4,
+    "p": 0.0173,
+    "days_current": 14.2,
+    "usual_same_months_a": 2.5,
+    "record": true
+   },
+   {
+    "lon": 7.62,
+    "lat": 4.88,
+    "country": "Nigeria",
+    "days_a": 3.3,
+    "days_b": 6.4,
+    "p": 0.0066,
+    "days_current": 12.8,
+    "usual_same_months_a": 3.1,
+    "record": true
+   },
+   {
+    "lon": 8.12,
+    "lat": 4.88,
+    "country": "Nigeria",
+    "days_a": 4.8,
+    "days_b": 8.8,
+    "p": 0.0068,
+    "days_current": 13.8,
+    "usual_same_months_a": 4.4,
+    "record": true
+   },
+   {
+    "lon": 160.12,
+    "lat": -9.62,
+    "country": "Solomon Is.",
+    "days_a": 4.3,
+    "days_b": 10.6,
+    "p": 0.0001,
+    "days_current": 12.2,
+    "usual_same_months_a": 3.3,
+    "record": true
+   },
+   {
+    "lon": 6.12,
+    "lat": 4.38,
+    "country": "Nigeria",
+    "days_a": 3.0,
+    "days_b": 5.3,
+    "p": 0.0233,
+    "days_current": 11.2,
+    "usual_same_months_a": 2.8,
+    "record": true
+   },
+   {
+    "lon": 93.62,
+    "lat": 20.88,
+    "country": "Myanmar",
+    "days_a": 9.6,
+    "days_b": 11.1,
+    "p": 0.322,
+    "days_current": 16.8,
+    "usual_same_months_a": 8.9,
+    "record": false
+   },
+   {
+    "lon": 97.12,
+    "lat": 18.38,
+    "country": "Myanmar",
+    "days_a": 7.2,
+    "days_b": 10.7,
+    "p": 0.0846,
+    "days_current": 14.8,
+    "usual_same_months_a": 7.0,
+    "record": false
+   },
+   {
+    "lon": 29.62,
+    "lat": 0.38,
+    "country": "Dem. Rep. Congo",
+    "days_a": 52.8,
+    "days_b": 54.0,
+    "p": 0.7273,
+    "days_current": 43.2,
+    "usual_same_months_a": 35.6,
+    "record": false
+   },
+   {
+    "lon": 120.62,
+    "lat": 16.38,
+    "country": "Philippines",
+    "days_a": 8.0,
+    "days_b": 8.6,
+    "p": 0.759,
+    "days_current": 14.2,
+    "usual_same_months_a": 6.6,
+    "record": true
+   },
+   {
+    "lon": 6.62,
+    "lat": 4.38,
+    "country": "Nigeria",
+    "days_a": 3.6,
+    "days_b": 5.9,
+    "p": 0.0271,
+    "days_current": 10.8,
+    "usual_same_months_a": 3.3,
+    "record": true
+   },
+   {
+    "lon": 5.62,
+    "lat": 5.38,
+    "country": "Nigeria",
+    "days_a": 2.2,
+    "days_b": 4.7,
+    "p": 0.037,
+    "days_current": 9.5,
+    "usual_same_months_a": 2.0,
+    "record": true
+   },
+   {
+    "lon": 86.12,
+    "lat": 20.88,
+    "country": "India",
+    "days_a": 2.1,
+    "days_b": 2.2,
+    "p": 0.8371,
+    "days_current": 9.2,
+    "usual_same_months_a": 1.9,
+    "record": true
+   },
+   {
+    "lon": 137.62,
+    "lat": 35.88,
+    "country": "Japan",
+    "days_a": 3.6,
+    "days_b": 6.7,
+    "p": 0.0047,
+    "days_current": 10.0,
+    "usual_same_months_a": 2.7,
+    "record": false
+   },
+   {
+    "lon": 84.12,
+    "lat": 21.38,
+    "country": "India",
+    "days_a": 2.8,
+    "days_b": 4.8,
+    "p": 0.0219,
+    "days_current": 10.0,
+    "usual_same_months_a": 2.8,
+    "record": true
+   }
+  ]
+ },
+ "note": "About 5% of cells show a \"robust\" change at p < 0.05 by chance alone; look for coherent regions rather than single cells."
+}
