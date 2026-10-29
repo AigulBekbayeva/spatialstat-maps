@@ -20,8 +20,8 @@ on:
         default: '2016-2025'
   # To add each new month of the current year automatically (on the 8th, after ERA5 has caught up),
   # remove the # from the next two lines.
-   schedule:
-     - cron: '17 4 8 * *'
+  # schedule:
+  #   - cron: '17 4 8 * *'
 
 permissions:
   contents: write
