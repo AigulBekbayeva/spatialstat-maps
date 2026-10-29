@@ -1,0 +1,80 @@
+# Downloads ERA5 daily precipitation from the Copernicus Climate Data Store, counts the days with 50 mm or more,
+# and updates rain-globe/data. Start it by hand: Actions > Update rain data > Run workflow.
+# Needs the repository secret CDSAPI_KEY (free: https://cds.climate.copernicus.eu, token on your profile page;
+# accept the licence of "ERA5 post-processed daily statistics on single levels" once on the dataset page).
+#
+# 21 years of global daily data take several hours. Each finished year is saved in pipeline/era5-years/
+# and committed straight away, so if a run stops at the time limit just run the workflow again:
+# it continues with the missing years. When all years are in, it builds the map data and publishes the site.
+# The current year (2026) is downloaded first, complete months only; later runs add the months that are new.
+name: Update rain data
+
+on:
+  workflow_dispatch:
+    inputs:
+      period_a:
+        description: First period
+        default: '2000-2010'
+      period_b:
+        description: Second period
+        default: '2016-2025'
+  # To add each new month of the current year automatically (on the 8th, after ERA5 has caught up),
+  # remove the # from the next two lines.
+  # schedule:
+  #   - cron: '17 4 8 * *'
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: rain-data
+  cancel-in-progress: false
+
+jobs:
+  data:
+    runs-on: ubuntu-latest
+    timeout-minutes: 355
+    outputs:
+      built: ${{ steps.commit.outputs.built }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: pipeline/requirements-rain.txt
+      - run: pip install -r pipeline/requirements-rain.txt
+      - name: Set up git for saving finished years
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Download ERA5 (continues where the last run stopped)
+        env:
+          CDSAPI_KEY: ${{ secrets.CDSAPI_KEY }}
+        run: >
+          python pipeline/extreme_rain.py fetch
+          --period-a "${{ inputs.period_a || '2000-2010' }}" --period-b "${{ inputs.period_b || '2016-2025' }}"
+          --budget 290 --git-commit
+      - name: Build map data
+        run: >
+          python pipeline/extreme_rain.py build
+          --period-a "${{ inputs.period_a || '2000-2010' }}" --period-b "${{ inputs.period_b || '2016-2025' }}"
+      - name: Commit the map data
+        id: commit
+        run: |
+          git add rain-globe/data
+          if git diff --cached --quiet; then
+            echo "built=false" >> "$GITHUB_OUTPUT"
+          else
+            git commit -m "Update rain data, $(date -u +%F)"
+            git pull --rebase --autostash
+            git push
+            echo "built=true" >> "$GITHUB_OUTPUT"
+          fi
+
+  deploy:
+    needs: data
+    if: needs.data.outputs.built == 'true'
+    uses: ./.github/workflows/deploy.yml
